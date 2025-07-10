@@ -22,11 +22,17 @@ const TodoList = () => {
         newTodos.splice(index, 1);         // Remove the selected heading
         setTodos(newTodos);                // Update state with modified list
     };
+    //Function to mark each todo item as completed
+    const handleDeleteTodolist = (todoIndex, listIndex) => {
+        const updatedTodos = [...todos];
+        updatedTodos[todoIndex].lists[listIndex].done = !updatedTodos[todoIndex].lists[listIndex].done; // ✅ Toggle done
+        setTodos(updatedTodos);
+    };
     // Function to add a new list item under a specific heading
     const handleAddList = (index) => {
         if (listInputs[index] && listInputs[index].trim() !== '') {
             const newTodos = [...todos];                        // Copy current todos
-            newTodos[index].lists.push(listInputs[index]);      // Add list to the right section
+            newTodos[index].lists.push({ text: listInputs[index], done: false });      // Add list in an object format with two properties text and done
             setTodos(newTodos);                                 // Update state
             setListInputs({ ...listInputs, [index]: '' });      // Clear list input for that section
         }
@@ -59,8 +65,7 @@ const TodoList = () => {
                     <div key={index} className="todo-card">
                         <div className="heading_todo">
                             <h3>{todo.heading}</h3> {/* Display heading */}
-                            <button
-                                className="delete-button-heading"
+                            <button className="delete-button-heading"
                                 onClick={() => handleDeleteTodo(index)}
                             >
                                 Delete Heading
@@ -68,11 +73,30 @@ const TodoList = () => {
                         </div>
                         {/* Render all list items under this heading */}
                         <ul>
+                            {/*
+                            todo.lists.map((list, listIndex) => (
+                                // Render each list item
+                                <li key={listIndex} className='todo_inside_list'> //This displays eash list item in text format on which we can not use our complete button
+                                <p>{list}</p>
+                                </li>
+                            ))
+                            */}
                             {todo.lists.map((list, listIndex) => (
                                 <li key={listIndex} className='todo_inside_list'>
-                                    <p>{list}</p> {/* Display individual list item */}
+                                    <p
+                                        style={{
+                                            textDecoration: list.done ? "line-through" : "none" //strike throughs the item when clicked completed
+                                        }}
+                                    >
+                                        {list.text}
+                                    </p> 
+                                    <button className='delete-button-list'
+                                    onClick={() => handleDeleteTodolist(index, listIndex)}
+                                    >
+                                    {list.done ? "completed" : "not completed"}
+                                    </button>
                                 </li>
-                            ))}
+                                ))}
                         </ul>
                         {/* Input section to add list item under this heading */}
                         <div className='add_list'>
