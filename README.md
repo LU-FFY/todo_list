@@ -18,9 +18,6 @@ After completing the course lab version, I decided to enhance the app by adding 
 - **`feature/completion-toggle`**  
   Introduced a feature to mark individual tasks as completed using a `done` flag.
 
-- **`feature/ui-enhancements`**  
-  Added visual and layout improvements using Flexbox, better text wrapping, and button responsiveness.
-
 - **`gh-pages`**  
   Deployment branch for GitHub Pages — powering the live version.
 
